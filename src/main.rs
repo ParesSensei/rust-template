@@ -130,3 +130,65 @@ fn test_serde_json() {
     let rendered = handlebars.render("hello", &data).unwrap();
     assert_eq!(rendered.contains("<h1>Hello ekotaro kuroniwa</h1>"), true);
 }
+
+#[test]
+fn test_if() {
+    let mut handlebars = Handlebars::new();
+
+    handlebars.register_template_file("hello", "templates/blog.mustache").unwrap();
+
+    let data = json!({
+       "title": "belajar rust",
+        "content": "belajar rust dengan baik"
+    });
+
+    let rendered = handlebars.render("hello", &data).unwrap();
+    assert_eq!(rendered.contains("belajar rust"), true);
+    assert_eq!(rendered.contains("belajar rust dengan baik"), true);
+    assert_eq!(rendered.contains("Anonymous"), true);
+}
+
+#[test]
+fn test_if2() {
+    let mut handlebars = Handlebars::new();
+
+    handlebars.register_template_file("hello", "templates/blog.mustache").unwrap();
+
+    let data = json!({
+       "title": "belajar rust",
+        "content": "belajar rust dengan baik",
+        "author": "ekotaro"
+    });
+
+    let rendered = handlebars.render("hello", &data).unwrap();
+    assert_eq!(rendered.contains("belajar rust"), true);
+    assert_eq!(rendered.contains("belajar rust dengan baik"), true);
+    assert_eq!(rendered.contains("Anonymous"), false);
+    assert_eq!(rendered.contains("ekotaro"), true);
+}
+
+#[test]
+fn test_unless() {
+    let mut handlebars = Handlebars::new();
+
+    handlebars.register_template_file("footer", "templates/footer.mustache").unwrap();
+
+    let data = json!({});
+
+    let rendered = handlebars.render("footer", &data).unwrap();
+    assert_eq!(rendered.contains("this content does not contains footer"), true);
+}
+
+#[test]
+fn test_unless2() {
+    let mut handlebars = Handlebars::new();
+
+    handlebars.register_template_file("footer", "templates/footer.mustache").unwrap();
+
+    let data = json!({
+        "footer": "ekotaro"
+    });
+
+    let rendered = handlebars.render("footer", &data).unwrap();
+    assert_eq!(rendered.contains("this content does not contains footer"), false);
+}
