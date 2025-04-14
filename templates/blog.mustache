@@ -1,5 +1,5 @@
-<html>
-<body>
+{{> layout/header}}
+
 <h1>{{title}}</h1>
 <p>{{content}}</p>
 {{#if author}}
@@ -7,5 +7,5 @@
 {{else}}
     <p>Anonymous</p>
 {{/if}}
-</body>
-</html>
+
+{{> layout/footer}}
